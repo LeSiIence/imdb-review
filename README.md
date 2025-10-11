@@ -38,8 +38,8 @@ imdb-sentiment-analysis/
 ├── tf_idf.py             # TF-IDF特征提取
 │
 ├── features/             # 特征文件目录
-├── .gitignore           # Git忽略文件
-└── README.md            # 项目说明
+├── .gitignore
+└── README.md
 ```
 
 ## 开始
