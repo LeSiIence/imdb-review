@@ -1,0 +1,187 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# 数据科学项目特定文件
+# 大数据文件
+*.csv
+*.tsv
+*.json
+*.xml
+*.xlsx
+*.xls
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# 模型文件
+*.model
+*.joblib
+*.sav
+*.h5
+*.pb
+*.onnx
+*.pth
+*.pt
+*.bin
+
+# 特征文件和缓存
+features/
+cache/
+temp/
+tmp/
+
+# 结果和输出
+results/
+outputs/
+logs/
+plots/
+figures/
+
+# Jupyter notebook输出
+*.ipynb
+
+# TensorBoard日志
+runs/
+tensorboard_logs/
+
+# CUDA相关
+*.cu
+*.ptx
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# 项目特定 - 保留小文件，忽略大文件
+# 保留预处理和训练脚本
+!preprocess.py
+!tf_idf.py
+!cuda_training.py
+!gpu_accelerated.py
+!test_preprocess.py
+
+# 忽略大数据集但保留样本
+IMDB Dataset.csv
+IMDB_Dataset_Preprocessed.csv
+
+# 忽略训练好的模型
+*.pth
+best_cuda_model.pth
+tfidf_vectorizer.pkl
