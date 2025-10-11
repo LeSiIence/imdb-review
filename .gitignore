@@ -173,13 +173,10 @@ Desktop.ini
 # 保留预处理和训练脚本
 !preprocess.py
 !tf_idf.py
-!cuda_training.py
-!gpu_accelerated.py
-!test_preprocess.py
 
-# 忽略大数据集但保留样本
-IMDB Dataset.csv
-IMDB_Dataset_Preprocessed.csv
+# 保留数据集样本
+!IMDB Dataset.csv
+!IMDB_Dataset_Preprocessed.csv
 
 # 忽略训练好的模型
 *.pth
