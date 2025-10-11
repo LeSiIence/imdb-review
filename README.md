@@ -9,8 +9,6 @@ imdb-sentiment-analysis/
 │
 ├── preprocess.py          # 数据预处理脚本
 ├── tf_idf.py             # TF-IDF特征提取
-├── cuda_training.py      # CUDA GPU加速训练
-├── gpu_accelerated.py    # GPU加速对比测试
 ├── test_preprocess.py    # 预处理效果测试
 │
 ├── features/             # 特征文件目录
