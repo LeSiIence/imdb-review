@@ -140,6 +140,10 @@ logs/
 plots/
 figures/
 
+
+#辅助文件
+辅助文件/
+
 # Jupyter notebook输出
 *.ipynb
 
