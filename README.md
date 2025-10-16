@@ -2,6 +2,38 @@
 
 IMDB电影评论情感分析(基于TF-IDF表征和Word2Vec表征)
 
+## 思考题解答：
+
+1. **哪种表征方法在这个任务上表现更好？为什么？**
+
+实际结果如混淆矩阵和性能柱状图所示（下方给出）。在大多数情况下，TF-IDF方法在该任务上简单直接，处理稀疏文本数据时拥有较稳健的表现，尤其是在训练数据不够丰富时；而Word2Vec方法可以捕捉词语之间的语义关系，对于表达方式多样或文本较长的场景更有潜力。实验中，**TF-IDF模型的准确率和F1分数更高，说明TF-IDF在本数据集上表现更好**，原因可能是IMDB影评用词分布较为规律，词频特征就已足够有效。
+
+2. **Word2Vec方法中，直接将所有词向量“平均”得到句子向量，有什么优点和缺点？**
+
+- **优点**：
+  - 简单高效，易于实现，计算成本低，训练和推理速度快。
+  - 能够一定程度融合整句的整体语义信息。
+  - 对词序不敏感，鲁棒性较高。
+
+- **缺点**：
+  - 丢失了词序和局部上下文信息，难以区分不同顺序表达的句子。
+  - 停用词、无区分性词语的影响未被抑制，可能稀释关键信息。
+  - 对长句和短句的分布不敏感，不考虑词语的重要性。
+
+---
+
+**模型混淆矩阵示例：**
+
+
+- **TF-IDF + Logistic Regression**
+
+<img src="tf_idf_confusion_matrix.png" alt="TF-IDF Confusion Matrix" width="800"/>
+
+- **Word2Vec + Logistic Regression**
+
+<img src="word2vec_confusion_matrix.png" alt="Word2Vec Confusion Matrix" width="800"/>
+
+
 ## 数据集来源
 
 https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews?resource=download&select=IMDB+Dataset.csv
@@ -104,36 +136,6 @@ python word2vec.py
 
 
 
-## 思考题解答：
-
-1. **哪种表征方法在这个任务上表现更好？为什么？**
-
-实际结果如混淆矩阵和性能柱状图所示（下方给出）。在大多数情况下，TF-IDF方法在该任务上简单直接，处理稀疏文本数据时拥有较稳健的表现，尤其是在训练数据不够丰富时；而Word2Vec方法可以捕捉词语之间的语义关系，对于表达方式多样或文本较长的场景更有潜力。实验中，**TF-IDF模型的准确率和F1分数更高，说明TF-IDF在本数据集上表现更好**，原因可能是IMDB影评用词分布较为规律，词频特征就已足够有效。
-
-2. **Word2Vec方法中，直接将所有词向量“平均”得到句子向量，有什么优点和缺点？**
-
-- **优点**：
-  - 简单高效，易于实现，计算成本低，训练和推理速度快。
-  - 能够一定程度融合整句的整体语义信息。
-  - 对词序不敏感，鲁棒性较高。
-
-- **缺点**：
-  - 丢失了词序和局部上下文信息，难以区分不同顺序表达的句子。
-  - 停用词、无区分性词语的影响未被抑制，可能稀释关键信息。
-  - 对长句和短句的分布不敏感，不考虑词语的重要性。
-
----
-
-**模型混淆矩阵示例：**
-
-
-- **TF-IDF + Logistic Regression**
-
-<img src="tf_idf_confusion_matrix.png" alt="TF-IDF Confusion Matrix" width="800"/>
-
-- **Word2Vec + Logistic Regression**
-
-<img src="word2vec_confusion_matrix.png" alt="Word2Vec Confusion Matrix" width="800"/>
 
 
 
