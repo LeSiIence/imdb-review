@@ -1,41 +1,25 @@
 import pandas as pd
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 warnings.filterwarnings('ignore')
 
+from features import load_dev_test_texts_labels, build_tfidf_features, split_train_validation
+from models import train_logreg
 def train_logistic_regression():
-    # 加载预处理后的数据
+    # 数据划分（前50%为dev，后50%为test）
     print("加载数据...")
-    data = pd.read_csv('IMDB_Dataset_Preprocessed.csv')
-    
-    # Kaggle约束：前50%作为开发集，后50%作为测试集
-    split_point = len(data) // 2
-    dev_data = data.iloc[:split_point]
-    test_data = data.iloc[split_point:]
-    
-    X_dev_text = dev_data['review'].values
-    y_dev = dev_data['sentiment'].values
-    X_test_text = test_data['review'].values
-    y_test = test_data['sentiment'].values
+    X_dev_text, y_dev, X_test_text, y_test = load_dev_test_texts_labels()
     
     print("TF-IDF特征提取...")
-    vectorizer = TfidfVectorizer(max_features=10000, ngram_range=(1, 2))
-    X_dev = vectorizer.fit_transform(X_dev_text)
-    X_test = vectorizer.transform(X_test_text)
+    X_dev, X_test, vectorizer = build_tfidf_features(X_dev_text, X_test_text)
     
-    X_train, X_val, y_train, y_val = train_test_split(
-        X_dev, y_dev, test_size=0.2, random_state=42, stratify=y_dev
-    )
+    X_train, X_val, y_train, y_val = split_train_validation(X_dev, y_dev)
     
     print("训练逻辑回归模型...")
-    lr = LogisticRegression(max_iter=500, random_state=42, solver='liblinear')
-    lr.fit(X_train, y_train)
+    lr = train_logreg(X_train, y_train)
     
     # 预测测试集
     test_pred = lr.predict(X_test)

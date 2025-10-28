@@ -5,49 +5,29 @@ warnings.filterwarnings('ignore')
 import numpy as np
 import pandas as pd
 from gensim.models import Word2Vec
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
-def tokenize(text: str):
-    if not isinstance(text, str):
-        return []
-    return [t for t in text.strip().split() if t]
-
-
-def build_sentence_vectors(texts, model: Word2Vec, vector_size: int):
-    vectors = []
-    for txt in texts:
-        tokens = tokenize(txt)
-        word_vecs = [model.wv[w] for w in tokens if w in model.wv]
-        if word_vecs:
-            vec = np.mean(word_vecs, axis=0)
-        else:
-            vec = np.zeros(vector_size, dtype=np.float32)
-        vectors.append(vec)
-    return np.vstack(vectors)
+from features import (
+    load_dev_test_texts_labels,
+    load_full_texts_labels,
+    tokenize,
+    train_word2vec,
+    build_sentence_vectors,
+)
+from models import train_logreg
 
 
 def train_word2vec_logreg():
     print("加载数据...")
-    data = pd.read_csv('IMDB_Dataset_Preprocessed.csv')
-
-    split_point = len(data) // 2
-    dev_data = data.iloc[:split_point]
-    test_data = data.iloc[split_point:]
-
-    X_dev_text = dev_data['review'].values
-    y_dev = dev_data['sentiment'].values
-    X_test_text = test_data['review'].values
-    y_test = test_data['sentiment'].values
+    X_dev_text, y_dev, X_test_text, y_test = load_dev_test_texts_labels()
+    all_texts, _ = load_full_texts_labels()
 
     print("训练Word2Vec...")
-    sentences = [tokenize(s) for s in data['review'].astype(str).values]
+    sentences = [tokenize(s) for s in all_texts]
     vector_size = 300
-    w2v = Word2Vec(
+    w2v = train_word2vec(
         sentences=sentences,
         vector_size=vector_size,
         window=5,
@@ -62,13 +42,11 @@ def train_word2vec_logreg():
     X_dev = build_sentence_vectors(X_dev_text, w2v, vector_size)
     X_test = build_sentence_vectors(X_test_text, w2v, vector_size)
 
-    X_train, X_val, y_train, y_val = train_test_split(
-        X_dev, y_dev, test_size=0.2, random_state=42, stratify=y_dev
-    )
+    from features import split_train_validation
+    X_train, X_val, y_train, y_val = split_train_validation(X_dev, y_dev)
 
     print("训练逻辑回归模型...")
-    lr = LogisticRegression(max_iter=500, random_state=42, solver='liblinear')
-    lr.fit(X_train, y_train)
+    lr = train_logreg(X_train, y_train)
 
     test_pred = lr.predict(X_test)
 
