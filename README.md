@@ -30,7 +30,12 @@
 
   也即：
 
-  $$C = \begin{bmatrix} \sigma^2_x & \sigma_{xy} \\\\ \sigma_{yx} & \sigma^2_y \end{bmatrix}$$
+  ```math
+  C = \begin{bmatrix} 
+  \sigma^2_x & \sigma_{xy} \\ 
+  \sigma_{yx} & \sigma^2_y 
+  \end{bmatrix}
+  ```
 
 - 计算 $C$ 的特征值和特征向量
 
@@ -94,6 +99,7 @@ $$\frac{\partial Loss(HighDim,LowDim)}{\partial LowDim}$$
 
   $$D_{KL}(P||Q)=\sum_{i} P_{i} \log \frac{P_{i}}{Q_{i}}$$
   
+
 **常见超参数：**
 - `perplexity`（困惑度）：控制每个点局部邻域的平滑程度
 - `learning_rate`（学习率）：优化过程中步长
@@ -105,6 +111,9 @@ $$\frac{\partial Loss(HighDim,LowDim)}{\partial LowDim}$$
 - 只适合可视化，不适合特征工程直接下游建模。
 
 ### 可视化对比：PCA vs t‑SNE
+
+![tfidf_pca_tsne](C:\Users\admin\iCloudDrive\作业\大二上\数据科学\imdb review\tfidf_pca_tsne.png)
+
 - 整体观察：`tfidf_pca_tsne.png` 中，PCA 2D 图点云重叠较多；t‑SNE 2D 图更易形成局部簇，但两类仍存在交叠。
 - 相对来说，在此项目中 t-SNE的聚类效果较好，但由于降维过大，仍然出现较大面积的重叠。
 - PCA 特点：
