@@ -84,7 +84,10 @@ $$
 
 ### 计算方法
 
-- 计算与近邻的距离，并转化为Gaussian distribution( $p_{0,j}=e^-\frac{||x_0-x_j||^2}{2\sigma^2_0} $)
+- 计算与近邻的距离，并转化为高斯分布形式。对于第 $0$ 个样本和其近邻 $j$，概率为：
+  $$
+  p_{0j} = \exp\left( -\frac{\|x_0 - x_j\|^2}{2\sigma_0^2} \right)
+  $$
 
   使用hyperparameter: perplexity来调整钟形曲线的方差
 
