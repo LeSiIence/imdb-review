@@ -112,7 +112,7 @@ $$\frac{\partial Loss(HighDim,LowDim)}{\partial LowDim}$$
 
 ### 可视化对比：PCA vs t‑SNE
 
-![tfidf_pca_tsne](C:\Users\admin\iCloudDrive\作业\大二上\数据科学\imdb review\tfidf_pca_tsne.png)
+![tfidf_pca_tsne](tfidf_pca_tsne.png)
 
 - 整体观察：`tfidf_pca_tsne.png` 中，PCA 2D 图点云重叠较多；t‑SNE 2D 图更易形成局部簇，但两类仍存在交叠。
 - 相对来说，在此项目中 t-SNE的聚类效果较好，但由于降维过大，仍然出现较大面积的重叠。
