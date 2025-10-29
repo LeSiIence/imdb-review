@@ -17,55 +17,48 @@
 # 实验名称：基于TF-IDF文本表示的PCA与t-SNE可视化实验
 
 ## PCA （主成分分析）
- ###  计算方法：
+
+###  计算方法：
 
 - 样本去中心化（以：二维样本数据为例）
-  $$
-  X = [
-  x_i - \bar{x}, y_i - \bar{y}
-  ]
-  $$
-  
-- 计算协方差矩阵（Covariance Matrix）
-  $$
-  C = \frac{1}{n-1}X^TX
-  $$
-  也即：
-  $$
-  C = \begin{bmatrix}
-  \sigma^2_x & \sigma_{xy} \\
-  \sigma_{yx} & \sigma^2_y
-  \end{bmatrix}
-  $$
 
-- 计算$C$ 的特征值和特征向量
+  $$X = [x_i - \bar{x}, y_i - \bar{y}]$$
+
+- 计算协方差矩阵（Covariance Matrix）
+
+  $$C = \frac{1}{n-1}X^TX$$
+
+  也即：
+
+  $$C = \begin{bmatrix} \sigma^2_x & \sigma_{xy} \\\\ \sigma_{yx} & \sigma^2_y \end{bmatrix}$$
+
+- 计算 $C$ 的特征值和特征向量
 
   即：求解矩阵方程
-  $$
-  C\nu = \lambda \nu
-  $$
+
+  $$C\nu = \lambda \nu$$
+
   特征值最大的特征向量是主成分（证明略）
-  
+
 - 投影
 
   创建一个矩阵，将数据投影到主成分上，从而完成PCA
-  $$
-  P = [\nu_x ,\nu_y]
-  $$
+
+  $$P = [\nu_x ,\nu_y]$$
 
 ### PCA优劣
 
 - 速度非常快，只需要简单线性代数
 
   复杂度分析：
-  $$
-  Complexity = O(nd^2+d^3)
-  $$
-  $d$ 是样本数，$n$ 是特征数
+
+  $$Complexity = O(nd^2+d^3)$$
+
+  其中 $d$ 是样本数，$n$ 是特征数
 
 - 处理非线性数据受限
 
-  ---
+---
 
   
 
@@ -75,35 +68,31 @@
 
 试图保持高维空间中元素与邻居的距离在低维空间中保持相似
 
-为做到这一点，设计一个损失函数 $Loss(HighDim, LowDim)$ ，此函数可以表示高维和低维表示的距离差异有多大。
+为做到这一点，设计一个损失函数 $Loss(HighDim, LowDim)$，此函数可以表示高维和低维表示的距离差异有多大。
 
 最小化此函数，即对 $LowDim$ 做偏导：
-$$
-\frac{\partial Loss(HighDim,LowDim)}{\partial LowDim}
-$$
+
+$$\frac{\partial Loss(HighDim,LowDim)}{\partial LowDim}$$
 
 ### 计算方法
 
 - 计算与近邻的距离，并转化为高斯分布形式。对于第 $0$ 个样本和其近邻 $j$，概率为：
-  $$
-  p_{0j} = \exp\left( -\frac{\|x_0 - x_j\|^2}{2\sigma_0^2} \right)
-  $$
 
-  使用hyperparameter: perplexity来调整钟形曲线的方差
+  $$p_{0j} = \exp\left( -\frac{||x_0 - x_j||^2}{2\sigma_0^2} \right)$$
+
+  使用 hyperparameter: perplexity 来调整钟形曲线的方差
 
   对每一个样本做相同操作，并归一化每一个高斯分布：
-  $$
-  P_{i,j}=\frac{e^-\frac{||x_i-x_j||^2}{2\sigma^2_i} }{\Sigma_{k\ne i}e^-\frac{||x_i-x_k||^2}{2\sigma^2_i}}
-  $$
-  描述低维距离的公式完全相同
-  $$
-  Q_{i,j}=\frac{e^-{||y_i-y_j||^2} }{\Sigma_{k\ne i}e^-||x_i-x_k||^2}
-  $$
 
-- 使两个概率分布尽量接近（衡量标准为Kullback-Leibler divergence）
-  $$
-  D_{KL}(P||Q)=\sum_{i} P_{i} \log \frac{P_{i}}{Q_{i}}
-  $$
+  $$P_{i,j}=\frac{\exp\left(-\frac{||x_i-x_j||^2}{2\sigma^2_i}\right)}{\sum_{k\ne i}\exp\left(-\frac{||x_i-x_k||^2}{2\sigma^2_i}\right)}$$
+
+  描述低维距离的公式完全相同：
+
+  $$Q_{i,j}=\frac{\exp(-||y_i-y_j||^2)}{\sum_{k\ne i}\exp(-||y_i-y_k||^2)}$$
+
+- 使两个概率分布尽量接近（衡量标准为 Kullback-Leibler divergence）
+
+  $$D_{KL}(P||Q)=\sum_{i} P_{i} \log \frac{P_{i}}{Q_{i}}$$
   
 **常见超参数：**
 - `perplexity`（困惑度）：控制每个点局部邻域的平滑程度
